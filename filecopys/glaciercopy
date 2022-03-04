@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# glacier to s3
+# Usage: glaciercopy ORIGIN-BUCKET DEST-BUCKET FILES 
+# glaciercopy s3://bucket-glacier-origin s3://bucket-destination/ *.mov
+
+#set default config to acelerate transfer. Need origin and destinity buckets enabled
+aws configure set s3.use_accelerate_endpoint true
+
+#set default config to increase multiple threads. Please use an larger EC2 network 
+aws configure set s3.max_concurrent_requests 200
+
+$APP=aws
+$ORIG=$1
+$DEST=$2
+$INCL=$3
+
+_isRunning() {
+    ps -o comm= -C "$1" 2>/dev/null | grep -x "$1" >/dev/null 2>&1
+}
+_sync() {
+	$APP s3 sync ${ORIG} ${DEST} --exclude "*" --include "${INCL}" --force-glacier-transfer --cli-connect-timeout 0
+}
+
+while :; do
+   if ! _isRunning $APP; then
+       _sync &
+   fi
+   sleep 10
+done
