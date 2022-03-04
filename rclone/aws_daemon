@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#set default config to acelerate transfer. Need origin and destinity buckets enabled
+aws configure set s3.use_accelerate_endpoint true
+
+#set default config to increase multiple threads. Please use an larger EC2 network 
+aws configure set s3.max_concurrent_requests 200
+
+
+_isRunning() {
+    ps -o comm= -C "$1" 2>/dev/null | grep -x "$1" >/dev/null 2>&1
+}
+_copy() {
+	aws s3 sync s3://usp-genomics/ s3://prs-sabe-files/ --exclude "*" --include "*.bam" --force-glacier-transfer --cli-connect-timeout 0
+}
+
+while :; do
+   if ! _isRunning aws; then
+       _copy &
+   fi
+   sleep 10
+done

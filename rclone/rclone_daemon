@@ -1,0 +1,19 @@
+#!/bin/bash
+
+$ORIG=$1
+$DEST=$2
+$APPNAME=rclone
+
+_isRunning() {
+    ps -o comm= -C "$1" 2>/dev/null | grep -x "$1" >/dev/null 2>&1
+}
+_copy() {
+	$APPNAME copy $ORIG $DEST -P 
+}
+
+while :; do
+   if ! _isRunning $APPNAME; then
+       _copy &
+   fi
+   sleep 10
+done
