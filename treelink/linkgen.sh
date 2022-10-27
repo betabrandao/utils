@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Static link generator
 # Created By Roberta Brandao
 
 #linkfile
-CONF_LINK=./conf_link.yml
-RENDER_DIR=public
+
+BASEDIR=$(dirname "$0")
+CONF_LINK=./$BASEDIR/conf_link.yml
+RENDER_DIR=./public
 
 
 readarray LIST_ARR < <(yq e '.site_url | keys | .[]' ${CONF_LINK})
@@ -42,12 +44,12 @@ export BUTTONS=$(create_list_principal)
    done
 
 #Creating index page
-envsubst < index.tpl > $RENDER_DIR/index.html
+envsubst < $BASEDIR/index.tpl > $RENDER_DIR/index.html
 
 #copy css and png to assets
 create_render_dir "$RENDER_DIR/assets"
-cp style.tpl $RENDER_DIR/assets/style.css
-cp image.png $RENDER_DIR/assets/image.png
+cp $BASEDIR/style.tpl $RENDER_DIR/assets/style.css
+cp $BASEDIR/image.png $RENDER_DIR/assets/image.png
 
 unset SITE_TITLE
 unset BUTTONS
@@ -73,11 +75,11 @@ create_index_subgroups () {
            BUTTONS+=$(button_template "${href}" "${value}")
        done < <(yq e ".site_url.$list" ${CONF_LINK} -o=tsv | sed '1d')
 
-    envsubst < index.tpl > ${RENDER_DIR}/${list//[$'\n\r\t ']}/index.html
+    envsubst < $BASEDIR/index.tpl > ${RENDER_DIR}/${list//[$'\n\r\t ']}/index.html
 
     #copy css and png to assets
-    cp style.tpl ${RENDER_DIR}/${list//[$'\n\r\t ']}/assets/style.css
-    cp image.png ${RENDER_DIR}/${list//[$'\n\r\t ']}/assets/image.png
+    cp $BASEDIR/style.tpl ${RENDER_DIR}/${list//[$'\n\r\t ']}/assets/style.css
+    cp $BASEDIR/image.png ${RENDER_DIR}/${list//[$'\n\r\t ']}/assets/image.png
    done
 
 
