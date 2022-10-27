@@ -29,7 +29,7 @@ EOF
 create_list_principal () { 
 for list in "${LIST_ARR[@]}"
 do
-   button_template "/$list/"  "$list"
+   button_template "$list/"  "$list"
 done
 }
 
