@@ -13,7 +13,7 @@ RENDER_DIR=./public
 player_template () {
 export EP_NAME=${1//[$'\n\r']}
 export EP_AUDIO=${2//[$'\n\r ']}
-export EP_DESCRIPTION=${3//[$'\n\r']}
+export EP_DESCRIPTION=${3//[$'\n\r\t']}
 export EP_DURATION=${4//[$'\n\r']}
 
 #creating player by template
@@ -53,7 +53,6 @@ export SITE_EMAIL=$(yq e '.site.email'  ${CONF_LINK})
 export SITE_AUTHOR=$(yq e '.site.author'  ${CONF_LINK})
 export SITE_URL=$(yq e '.site.url'  ${CONF_LINK})
 
-export PLAYERS=''
 export RSS_ITEM=''
 # creating buttons list
 while IFS= read -r line
@@ -63,11 +62,13 @@ while IFS= read -r line
       DESCRIPTION=$(cat <<< "$line" |  cut -d$'\t' -f3)
       DURATION=$(cat <<< "$line" |  cut -d$'\t' -f4)
  
-    PLAYERS+=$(player_template "${NAME}" "${AUDIO}" "${DESCRIPTION}" "${DURATION}")
+    player_template "${NAME}" "${AUDIO}" "${DESCRIPTION}" "${DURATION}" >> .player_tmp
     RSS_ITEM+=$(rss_item_template "${NAME}" "${AUDIO}" "${DESCRIPTION}" "${DURATION}")
   done < <(yq e ".episodes" ${CONF_LINK} -o=tsv | sed '1d')
 
 create_render_dir "$RENDER_DIR/assets"
+
+export PLAYERS=$(cat .player_tmp)
 
 envsubst < $BASEDIR/index.tpl > ${RENDER_DIR}/index.html
 envsubst < $BASEDIR/rss.tpl > ${RENDER_DIR}/feed.rss
@@ -78,6 +79,7 @@ minify $BASEDIR/style.tpl ${RENDER_DIR}/assets/style.css
 cp $BASEDIR/image.png ${RENDER_DIR}/assets/image.png
 
 unset PLAYERS
+rm .player_tmp
 }
 
 minify () {

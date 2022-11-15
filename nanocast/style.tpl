@@ -99,9 +99,16 @@ h6 {
     width: 51rem!important;
 }
 
+.audio {
+    width: 49rem!important;
+}
+
 @media only screen and (max-width: 768px) {
 .card {
     width: 20rem!important;
+}
+.audio {
+    width: 18rem!important;
 }
 }
 
