@@ -2,11 +2,11 @@ body {
 	width: 100wh;
 	height: 90vh;
 	color: #fff;
-	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	background: radial-gradient(circle, rgba(237,12,101,1) 0%, rgba(115,179,255,1) 50%, rgba(239,100,161,1) 100%);
 	background-size: 400% 400%;
-	-webkit-animation: Gradient 15s ease infinite;
-	-moz-animation: Gradient 15s ease infinite;
-	animation: Gradient 15s ease infinite;
+	-webkit-animation: Gradient 150s ease infinite;
+	-moz-animation: Gradient 150s ease infinite;
+	animation: Gradient 150s ease infinite;
 }
 
 @-webkit-keyframes Gradient {

@@ -13,6 +13,7 @@
             <div class="text-center" style="padding-top: 30px; padding-bottom: 30px;">
                 <img class="backdrop linktree">
                 <h2 style="color: #ffffff; padding-top: 20px;">${SITE_TITLE}</h2>
+                <p style="color: #ffffff">${SITE_DESC}</p>
             </div>
     </div>
     </div>
