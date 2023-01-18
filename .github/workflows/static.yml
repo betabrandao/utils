@@ -34,8 +34,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
         
+      #- name: Generate Static Page
+      #  run: ./treelink/linkgen.sh
       - name: Generate Static Page
-        run: ./treelink/linkgen.sh
+        run: mkdir ./public && cp --recursive ./zapzap/* ./public
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
