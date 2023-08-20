@@ -1,0 +1,36 @@
+[cpu]
+command=top -bn1 | grep "Cpu" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print "CPU: " 100 - $1"%"}'
+interval=5
+color=#34E5D5
+
+[mem]
+command=free -h | grep "Mem" | sed 's/  //g;s/Mem://g' | awk '{print "RAM: " $1 " Used: "$2 " Avaliable: "$5}'
+interval=5
+color=#E5C734
+
+[battery]
+command=battery
+interval=10
+
+# Guess the weather hourly
+[weather]
+command=curl -sS 'https://wttr.in/Piranguinho?format=%l:+%C+%t+%m\n'
+interval=30
+color=#A4C2F4
+
+# Query my default IP address only on startup
+[ip]
+command=hostname -I | awk '{ print "Local IP:" $1 }'
+interval=5
+color=#91E78B
+
+# WIFI
+[wifi]
+command=echo $(wifi i3wm)
+interval=5
+color=#FFFF00
+
+# Update time every 5 seconds
+[time]
+command=date +%D" "%T
+interval=5

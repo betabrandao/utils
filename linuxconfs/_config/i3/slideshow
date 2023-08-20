@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#for background slideshow
+
+while true; do
+	for i in /usr/share/backgrounds/*; do
+		feh -z --bg-fill --no-fehbg "$i"
+		sleep 60
+	done
+done

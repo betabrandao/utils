@@ -1,0 +1,46 @@
+#!/bin/bash
+
+ARGS=$1
+
+NAME=$(nmcli c show | grep wls1 | awk '{print $1}')
+WIFI=$(cat /proc/net/wireless | grep wls1 | xargs |sed 's/\.//g' | awk '{print $3}')
+
+case $ARGS in
+  	list)
+	  nmcli device wifi rescan
+	  nmcli device wifi list
+	  ;;
+	connect)
+	  nmcli device wifi connect $2 --ask
+	  if [[ "$2" == "FEPI" || "$2" == "FEPI-5G" ]]; then
+		  echo "Logando na rede $2"
+		  $0 fepi
+	  fi
+	  ;;
+	i3wm)
+	  echo "Wifi ${NAME} signal: ${WIFI}%"
+	  ;;
+	fepi)
+	  curl 'http://ewc2.fepi.br/authUser.php'\
+		  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'\
+	       	  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8'\
+	       	  -H 'Cache-Control: max-age=0'\
+	       	  -H 'Connection: keep-alive'\
+	       	  -H 'Content-Type: application/x-www-form-urlencoded'\
+	       	  -H 'Origin: http://ewc2.fepi.br'\
+	       	  -H $'Referer: http://ewc2.fepi.br/login.php?wlan=65542&token=dtrekkF03YpE4_NcGVDDiA!!&dest=https://fepi.br'\
+	       	  -H 'Upgrade-Insecure-Requests: 1'\
+	       	  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'\
+		  --data-raw 'wlan=65542&cp_type=2&hFromPage=login.php&hURL=127.0.0.1&hToken=dtrekkF03YpE4_NcGVDDiA%21%21&dest=http%3A%2F%2Fwifi.fepi.br&useIndex=0&uName=00020847&uPwd=09092726702' --compressed --insecure
+	  ping 8.8.8.8 -c2
+	  ;;
+	*)
+	  echo "Usage:"
+	  echo "$0 list - List Wifi network"
+	  echo "$0 connect <SSID-NAME> - connect to Wifi network"
+	  echo "$0 fepi - connect to fepi wifi"
+	  echo "$0 i3wm - print info for i3wm"
+	 ;;
+esac
+
+exit 0

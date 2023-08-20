@@ -1,0 +1,7 @@
+displays:
+  - name: LVDS-1
+    workspaces: [1,2,3,4,5]
+  - name: VGA-1
+    workspaces: [6,7,8,9,10]
+    randr_extra_options: "--left-of LVDS-1"
+
