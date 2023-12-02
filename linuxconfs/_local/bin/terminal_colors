@@ -9,7 +9,7 @@ useColor="true" # Set to false if you find your environment just doesn't handle 
 # string background color name.  Optional. Defaults to $color_background
 #        which is set based on the current terminal background
 # returns a string
-function Color () {
+Color () {
 
     local foreground=$1
     local background=$2
@@ -75,7 +75,7 @@ function Color () {
 #        uses the system default
 # string Background color name.  Optional. Defaults to $color_background which is set based on the
 #        current terminal background
-function WriteLine () {
+WriteLine () {
 
     local resetColor='\033[0m'
 
@@ -104,7 +104,7 @@ function WriteLine () {
 #        uses the system default
 # string Background color name.  Optional. Defaults to $color_background which is set based on the
 #        current terminal background
-function Write () {
+Write () {
     local resetColor="\033[0m"
 
     local forecolor=$1

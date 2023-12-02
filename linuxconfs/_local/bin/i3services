@@ -1,0 +1,100 @@
+#!/bin/bash
+#I3 services
+# created by Roberta brandao at gmail dot com
+
+MENU=$1
+
+case $MENU in
+	battery)
+	   BAT_STS=$(acpi -a | grep 'on-line' | wc -l)
+	   CHARGE=$(echo ${BAT_STS} | sed 's/1/Charging/g;s/0/Discharging/g')
+	   BAT=$(acpi -b | grep -E -o '[0-9][0-9][0-9]?%')
+	   
+	   [[ ${BAT%?} -eq 100 ]] && CHARGE="Charged"
+	   
+	   # Full and short texts
+	     echo "Battery: ${BAT} ${CHARGE}"
+	   
+	   # Set urgent flag below 5% or use orange below 20%
+	   [[ ${BAT%?} -le 5 && ${BAT_STS} -eq 0  ]] && exit 33
+	   [[ ${BAT%?} -le 20 && ${BAT_STS} -eq 0 ]] && echo "#FF8000"
+	   
+	   exit 0
+	;;
+	cpu)
+	top -bn1 \
+		| grep "Cpu" \
+		| sed "s/.*, *\([0-9.]*\)%* id.*/\1/" \
+		| awk '{print "CPU: " 100 - $1"%"}'
+
+	exit 0
+	;;
+	memory)
+	free -h \
+		| grep "Mem" \
+		| sed 's/  //g;s/Mem://g' \
+		| awk '{print "RAM: " $1 " Used: "$2 " Avaliable: "$5}'
+	exit 0
+	;;
+	weather)
+	curl -sS 'https://wttr.in/Piranguinho?format=%l:+%C+%t+%m\n'
+	exit 0
+	;;
+	ip)
+	hostname -I \
+		| awk '{ print "Local IP:" $1 }'
+	exit 0
+	;;
+	wifi)
+	wifi i3wm
+	exit 0
+	;;
+	datetime)
+	date "+%d %b %+4Y, %a %T"
+	exit 0
+	;;
+	capslock)
+	CAPS_LOCK=$(xset -q | sed -n 's/^.*Caps Lock:\s*\(\S*\).*$/\1/p')
+	echo "CAPS"
+	echo
+	if [ "$CAPS_LOCK" == "off" ]; then
+	       	echo "#1f5a1f"
+	else
+		echo "#00FF00"
+	fi
+	exit 0
+	;;
+	numlock)
+	NUM_LOCK=$(xset -q | sed -n 's/^.*Num Lock:\s*\(\S*\).*$/\1/p')
+	echo "NUM"
+	echo
+	if [ "$NUM_LOCK" == "off" ]; then
+	       	echo "#1f5a1f"
+	else
+		echo "#00FF00"
+	fi
+	exit 0
+	;;
+	printscreen)
+	import /tmp/tempimg.jpg
+	convert /tmp/tempimg.jpg \
+		\( -size 100x -background none -fill "rgba(150,150,150,0.2)" -gravity center \
+		label:"Roberta Brandao" -trim -rotate -30 \
+		-bordercolor none -border 10 \
+		-write mpr:wm \
+		-delete -1 \
+		-clone -1 \
+		-fill mpr:wm  -draw 'color 0,0 reset' \) \
+	-compose over -composite \
+	~/Pictures/screenshot_$(date +%F_%H-%M-%S).jpg
+	rm -f /tmp/tempimg.jpg
+	;;
+	nowatermark)
+	import ~/Pictures/screenshot_$(date +%F_%H-%M-%S).jpg
+	;;
+	*)
+	  echo "no options for ${MENU}... see code"
+	exit 0
+	;;
+esac
+
