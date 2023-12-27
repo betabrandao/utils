@@ -41,8 +41,7 @@ case $MENU in
 	exit 0
 	;;
 	ip)
-	hostname -I \
-		| awk '{ print "Local IP:" $1 }'
+	hostname -I 
 	exit 0
 	;;
 	wifi)
