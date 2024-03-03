@@ -91,8 +91,29 @@ case $MENU in
 	nowatermark)
 	import ~/Pictures/screenshot_$(date +%F_%H-%M-%S).jpg
 	;;
+  video2webcam)
+  ffmpeg -re -i $2 -map 0:v -f v4l2 /dev/video2
+  ;;
+  android2webcam)
+  # TODO
+  ;;
 	*)
-	  echo "no options for ${MENU}... see code"
+	  echo "no options for ${MENU}:"
+    echo 
+    echo 'Usage:'
+    echo "$0 battery - Get battery status for i3wm"
+    echo "$0 cpu - Get cpu status for i3wm"
+    echo "$0 memory - Get memory status for i3wm"
+    echo "$0 weather - Get weather status for i3wm"
+    echo "$0 ip - Get ip addr"
+    echo "$0 capslock - Get capslock status for i3wm"
+    echo "$0 wifi - Get wifi status for i3wm"
+    echo "$0 datetime - Get datetime status"
+    echo "$0 printscreen - Print Screnn with Roberta Watermark"
+    echo "$0 nowatermark - PrintScreen no Watermark"
+    echo "$0 video2webcam filename.mp4 - Send video to fake webcam in \/dev\/video2."
+    echo "   You can play with ffplay \/dev\/video2"
+    echo "$0 android2webcam - Send USB Video to fake webcam"
 	exit 0
 	;;
 esac
