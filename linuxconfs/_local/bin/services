@@ -95,7 +95,10 @@ case $MENU in
   ffmpeg -re -i $2 -map 0:v -f v4l2 /dev/video2
   ;;
   android2webcam)
-  # TODO
+    export ANDOROID_SERIAL=$(adb devices -l | grep RMX | cut -d' ' -f1)
+    adb forward tcp:45671 tcp:8080
+    echo 'Started webcam server in http://localhost:45671/'
+    ffmpeg -hide_banner -loglevel error -i http://localhost:45671/video -vf format=yuv420p -f v4l2 /dev/video2
   ;;
 	*)
 	  echo "no options for ${MENU}:"
