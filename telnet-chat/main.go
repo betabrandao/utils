@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"log"
-	"config"  
-	"server"
+	"github.com/betabrandao/utils/telnet-chat/config"
+	"github.com/betabrandao/utils/telnet-chat/server"
 )
 
 func init() {

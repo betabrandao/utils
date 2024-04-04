@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"time"
 
-	"config"
-	"connection"
-	"room"
+	"github.com/betabrandao/utils/telnet-chat/config"
+	"github.com/betabrandao/utils/telnet-chat/connection"
+	"github.com/betabrandao/utils/telnet-chat/room"
 )
 
 type Server struct {

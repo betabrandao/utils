@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"connection"
+	"github.com/betabrandao/utils/telnet-chat/connection"
 )
 
 type Room struct {
