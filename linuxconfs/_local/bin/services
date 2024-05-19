@@ -100,6 +100,14 @@ case $MENU in
     echo 'Started webcam server in http://localhost:45671/'
     ffmpeg -hide_banner -loglevel error -i http://localhost:45671/video -vf format=yuv420p -f v4l2 /dev/video2
   ;;
+  otp)
+    count="$(printf '%.16x' $(($(date +%s)/30)))"
+    hexkey="$(echo -n "$1" | base32 -d | xxd -ps -c 128)"
+    hash="$(echo -n "$count" | xxd -r -p | openssl mac -digest sha1 -macopt hexkey:"$hexkey" HMAC)"
+    offset="$((16#${hash:39}))"
+    extracted="${hash:$((offset * 2)):8}"
+    echo "$(((16#$extracted & 16#7fffffff) % 1000000))"
+  ;;
 	*)
 	  echo "no options for ${MENU}:"
     echo 
