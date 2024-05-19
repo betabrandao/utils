@@ -102,7 +102,7 @@ case $MENU in
   ;;
   otp)
     count="$(printf '%.16x' $(($(date +%s)/30)))"
-    hexkey="$(echo -n "$1" | base32 -d | xxd -ps -c 128)"
+    hexkey="$(echo -n "$2" | base32 -d | xxd -ps -c 128)"
     hash="$(echo -n "$count" | xxd -r -p | openssl mac -digest sha1 -macopt hexkey:"$hexkey" HMAC)"
     offset="$((16#${hash:39}))"
     extracted="${hash:$((offset * 2)):8}"
