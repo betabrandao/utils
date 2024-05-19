@@ -100,17 +100,24 @@ case $MENU in
     echo 'Started webcam server in http://localhost:45671/'
     ffmpeg -hide_banner -loglevel error -i http://localhost:45671/video -vf format=yuv420p -f v4l2 /dev/video2
   ;;
-  otp)
+  token)
     count="$(printf '%.16x' $(($(date +%s)/30)))"
     hexkey="$(echo -n "$2" | base32 -d | xxd -ps -c 128)"
     hash="$(echo -n "$count" | xxd -r -p | openssl mac -digest sha1 -macopt hexkey:"$hexkey" HMAC)"
     offset="$((16#${hash:39}))"
     extracted="${hash:$((offset * 2)):8}"
-    echo "$(((16#$extracted & 16#7fffffff) % 1000000))"
+    otptoken="$(((16#${extracted} & 16#7fffffff) % 1000000))"
+    echo "$(printf '%06d' ${otptoken})"
+  ;;
+  otp)
+    while read secret; 
+      do 
+        echo "$(echo $secret | cut -d'|' -f1): $(services token $(echo $secret | cut -d'|' -f2))";
+      done  < <(pass me/otp | jq '.[] | .name+"|"+.secret' --raw-output)
   ;;
 	*)
 	  echo "no options for ${MENU}:"
-    echo 
+    echo '.[] | .name+"|"+.secret'
     echo 'Usage:'
     echo "$0 battery - Get battery status for i3wm"
     echo "$0 cpu - Get cpu status for i3wm"
@@ -125,6 +132,8 @@ case $MENU in
     echo "$0 video2webcam filename.mp4 - Send video to fake webcam in \/dev\/video2."
     echo "   You can play with ffplay \/dev\/video2"
     echo "$0 android2webcam - Send USB Video to fake webcam"
+    echo "$0 token SECRETIDTOKEN - decode totp token using openssl HMAC"
+    echo "$0 otp - print otp token saved on passwordstore, using jq."
 	exit 0
 	;;
 esac
