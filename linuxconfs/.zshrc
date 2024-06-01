@@ -98,6 +98,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias wasabi='aws --endpoint-url=https://s3.wasabisys.com/'
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
