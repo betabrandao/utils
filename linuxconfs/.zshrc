@@ -99,6 +99,7 @@ source $ZSH/oh-my-zsh.sh
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias wasabi='aws --endpoint-url=https://s3.wasabisys.com/'
+alias kafka='kubectl --kubeconfig ~/.kube/alphakafka.conf'
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -120,3 +121,15 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
+
+# randpass
+randpass () {
+if [ -n "$1" ]; then 
+ str=$(date +%s | sha256sum | base64 | head -c $1)
+ echo $str && echo $str | setclip 
+ else
+ echo "Usage: randpass [lenght]"
+fi
+unset $str
+}
+
