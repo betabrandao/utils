@@ -60,6 +60,6 @@ while read line; do ./script.sh $line ; done < Book1.csv
 4. Para juntar as imagens tudo em um arquivo só:
 
 ```bash
-montage -geometry +0+0 page_*.png -resize 300x200 -extent 300x200 -tile 3x3 -gravity center -page a4 test.png
+montage -mode concatenate -geometry +0+0 page_*.png -resize 600x400 -extent 600x400 -tile 3x3 -gravity center -page a3 test.png
 ```
 
