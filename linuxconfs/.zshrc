@@ -70,7 +70,7 @@ ZSH_THEME="agnoster" # set by `omz`
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pass aws)
+plugins=(git pass aws kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,6 +100,7 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias wasabi='aws --endpoint-url=https://s3.wasabisys.com/'
 alias kafka='kubectl --kubeconfig ~/.kube/alphakafka.conf'
+alias yt2mp3='yt-dlp -x --audio-format mp3'
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
