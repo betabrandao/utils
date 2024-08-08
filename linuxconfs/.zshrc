@@ -102,10 +102,14 @@ alias wasabi='aws --endpoint-url=https://s3.wasabisys.com/'
 alias kafka='kubectl --kubeconfig ~/.kube/alphakafka.conf'
 alias yt2mp3='yt-dlp -x --audio-format mp3'
 
+alias kafkadir='sudo mount -t davfs https://cloud.alphakafka.net/remote.php/dav/files/beta /home/cafe/cloud -o rw,uid=beta,file_mode=666,dir_mode=0777'
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export PATH="$PATH:/opt/nvim-linux64/bin:$HOME/.local/bin"
+export JAVA_HOME=/snap/java-jre-ondra/125/jre
+export PATH="$PATH:/snap/java-jre-ondra/125/jre/bin:/snap/java-jre-ondra/125/usr/sbin:/snap/java-jre-ondra/125/usr/bin:/snap/java-jre-ondra/125/sbin:/snap/java-jre-ondra/125/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 
 #asdf
 . "$HOME/.asdf/asdf.sh"
