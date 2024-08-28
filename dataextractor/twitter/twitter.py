@@ -6,8 +6,8 @@ from twitter.util import find_key
 
 ## sign-in with credentials cookies
 cookies={
-        "ct0": "8462ce9af68b2f6ecc16e9c2f24d7e7729780e71420c1efb43068827a2cef8ad6e66fe3ea0303797a70c4ef070cf95b8664c7cc71d96aa3b4870772c7d54eb8e5eb3c201f95dbbb3daf4e658a0499d68",
-        "auth_token": "72ad52ca4918aec57041a041437aff7493a9f0cd"
+        "ct0": "0c8413c264e17f57f1b6b05e997eab028069205d3ac19b6bc2db8db9319a1ba8d3c5bdb459f10b8dc557b562dc81e7bf1d89a26a0c379eed37d7a343a5468a44931c99a3c20219929be7f3f20425b380",
+        "auth_token": "a807e52d10ace05097aac7f1705d030e3d8840e7"
         }
 
 def parse_tweets(data: list | dict) -> pd.DataFrame:
@@ -60,17 +60,7 @@ if __name__ == "__main__":
     # from twitter.util import init_session
     # scraper = Scraper(session=init_session())
 
-    tweets = scraper.tweets_by_ids([
-        1751914735522472324, 
-        1751776901343977599, 
-        1749859822084805011, 
-        1751373408158331029, 
-        1751283180420608042,
-        1750981019270852648,
-        1750543685002162478,
-        1750564354162917512,
-        1750581446270431512,
-        1750320076337659985])
+    tweets = scraper.tweets_by_ids([1750581446270431512])
 
     df = parse_tweets(tweets)
 

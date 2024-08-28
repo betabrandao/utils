@@ -130,11 +130,12 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 # randpass
 randpass () {
 if [ -n "$1" ]; then 
- str=$(date +%s | sha256sum | base64 | head -c $1)
- echo $str && echo $str | setclip 
+ #str=$(date +%s | sha256sum | base64 | head -c $1)
+ # https://www.owasp.org/index.php/Password_special_characters
+local str=$(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c $1; echo)
+ echo $str && echo $str | pbcopy 
  else
  echo "Usage: randpass [lenght]"
 fi
-unset $str
 }
 
