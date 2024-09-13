@@ -101,6 +101,7 @@ alias pbpaste='xclip -selection clipboard -o'
 alias wasabi='aws --endpoint-url=https://s3.wasabisys.com/'
 alias kafka='kubectl --kubeconfig ~/.kube/alphakafka.conf'
 alias yt2mp3='yt-dlp -x --audio-format mp3'
+alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/extra'
 
 alias kafkadir='sudo mount -t davfs https://cloud.alphakafka.net/remote.php/dav/files/beta /home/cafe/cloud -o rw,uid=beta,file_mode=666,dir_mode=0777'
 
@@ -137,5 +138,10 @@ local str=$(LC_ALL=C tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev
  else
  echo "Usage: randpass [lenght]"
 fi
+}
+
+checkcpf ()
+{
+ curl -Ss "https://daminternet.rio.rj.gov.br/certidao/buscaruccpfreceitafederal?cpf=${1}" | jq '.dadosReceitaDto' 
 }
 
