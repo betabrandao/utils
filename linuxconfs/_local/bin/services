@@ -41,7 +41,8 @@ case $MENU in
 	exit 0
 	;;
 	ip)
-	hostname -I 
+  echo "Internal: $(hostname -I)"
+  echo "External: $(dig +short txt ch whoami.cloudflare @1.0.0.1)"
 	exit 0
 	;;
 	wifi)
@@ -116,24 +117,25 @@ case $MENU in
       done  < <(pass me/otp | jq '.[] | .name+"|"+.secret' --raw-output)
   ;;
 	*)
+    name=$(basename $0)
 	  echo "no options for ${MENU}:"
     echo '.[] | .name+"|"+.secret'
     echo 'Usage:'
-    echo "$0 battery - Get battery status for i3wm"
-    echo "$0 cpu - Get cpu status for i3wm"
-    echo "$0 memory - Get memory status for i3wm"
-    echo "$0 weather - Get weather status for i3wm"
-    echo "$0 ip - Get ip addr"
-    echo "$0 capslock - Get capslock status for i3wm"
-    echo "$0 wifi - Get wifi status for i3wm"
-    echo "$0 datetime - Get datetime status"
-    echo "$0 printscreen - Print Screnn with Roberta Watermark"
-    echo "$0 nowatermark - PrintScreen no Watermark"
-    echo "$0 video2webcam filename.mp4 - Send video to fake webcam in \/dev\/video2."
-    echo "   You can play with ffplay \/dev\/video2"
-    echo "$0 android2webcam - Send USB Video to fake webcam"
-    echo "$0 token SECRETIDTOKEN - decode totp token using openssl HMAC"
-    echo "$0 otp - print otp token saved on passwordstore, using jq."
+    echo "${name} battery - Get battery status for i3wm"
+    echo "${name} cpu - Get cpu status for i3wm"
+    echo "${name} memory - Get memory status for i3wm"
+    echo "${name} weather - Get weather status for i3wm"
+    echo "${name} ip - Get ip addr"
+    echo "${name} capslock - Get capslock status for i3wm"
+    echo "${name} wifi - Get wifi status for i3wm"
+    echo "${name} datetime - Get datetime status"
+    echo "${name} printscreen - Print Screnn with Roberta Watermark"
+    echo "${name} nowatermark - PrintScreen no Watermark"
+    echo "${name} video2webcam filename.mp4 - Send video to fake webcam in /dev/video2."
+    echo "        You can play with ffplay /dev/video2"
+    echo "${name} android2webcam - Send USB Video to fake webcam"
+    echo "${name} token SECRETIDTOKEN - decode totp token using openssl HMAC"
+    echo "${name} otp - print otp token saved on passwordstore, using jq."
 	exit 0
 	;;
 esac
