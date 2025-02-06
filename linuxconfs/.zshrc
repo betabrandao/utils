@@ -70,7 +70,7 @@ ZSH_THEME="agnoster" # set by `omz`
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pass aws kubectl)
+plugins=(git pass aws kubectl docker)
 
 source $ZSH/oh-my-zsh.sh
 
